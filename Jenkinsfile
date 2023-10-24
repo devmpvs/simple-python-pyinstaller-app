@@ -1,5 +1,10 @@
 pipeline {
-    agent none
+    agent{
+      docker {
+        image 'node:16-buster-slim' 
+        args '-p 3000:3000' 
+        }  
+    }
     stages {
         stage('Build') {
             agent {
@@ -23,21 +28,6 @@ pipeline {
             post {
                 always {
                     junit 'test-reports/results.xml'
-                }
-            }
-        }
-        stage('Deliver') {
-            agent {
-                docker {
-                    image 'cdrx/pyinstaller-linux:python2'
-                }
-            }
-            steps {
-                sh 'pyinstaller --onefile sources/add2vals.py'
-            }
-            post {
-                success {
-                    archiveArtifacts 'dist/add2vals'
                 }
             }
         }
