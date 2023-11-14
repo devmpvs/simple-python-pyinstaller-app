@@ -43,6 +43,8 @@ pipeline {
                 success {
                     archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals"
                     sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
+                    // Menjeda eksekusi pipeline selama 1 menit
+                    sleep time: 1, unit: 'MINUTES'
                 }
             }
         }
