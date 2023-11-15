@@ -27,6 +27,11 @@ pipeline {
                 }
             }
         }
+        stage('Manual Approval') {
+            steps {
+                input(message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', submitter: 'user', parameters: [[$class: 'BooleanParameterDefinition', defaultValue: true, description: 'Pilih Proceed untuk melanjutkan atau Abort untuk menghentikan.', name: 'proceed']])
+            }
+        }
         stage('Deploy') {
             agent any
             environment {
